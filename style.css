@@ -29,3 +29,9 @@ body{
     width: 20px;
     border: 4px black solid;
 }
+
+#bubble{
+    margin-top: 100px;
+    background-color: aqua;
+    width: 80px;
+}
