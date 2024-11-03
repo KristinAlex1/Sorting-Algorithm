@@ -1,0 +1,31 @@
+*{
+    padding: 0;
+    margin:0;
+}
+h1{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: 100px;
+    
+    
+    
+    
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column ;
+
+}
+
+.bar {
+    width: 20px;
+    border: 4px black solid;
+}
