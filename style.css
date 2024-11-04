@@ -25,9 +25,11 @@ body{
 
 }
 
-.bar {
+.bar{
+    background-color: aqua;
     width: 20px;
     border: 4px black solid;
+    margin: 5px;
 }
 
 #bubble{
