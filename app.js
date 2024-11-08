@@ -3,6 +3,8 @@ let arr = [];
 let start = document.querySelector("#create-bars");
 let bubble = document.querySelector("#bubble");
 let merg = document.querySelector("#merge");
+let quick = document.querySelector("#quick");
+
 
 start.addEventListener("click", createBars);
 bubble.addEventListener("click", () => {
@@ -10,6 +12,10 @@ bubble.addEventListener("click", () => {
 });
 merg.addEventListener("click", () => {
     mergeSort(arr);
+});
+
+quick.addEventListener("click",() =>{
+    quickSort(arr);
 });
 
 function createBars() {
@@ -88,40 +94,46 @@ async function merge(left, right) {
     return result;
 }
 
-async function quickSort(arr) {
-    // Base case: arrays with 1 or 0 elements are already sorted
-    if (arr.length <= 1) {
-        return arr;
+async function quickSort(arr, left = 0, right = arr.length - 1) {
+    if (left < right) {
+        // Partition the array around a pivot and get the pivot index
+        let pivotIndex = await partition(arr, left, right);
+
+        // Recursively apply quicksort to the left and right subarrays
+        await quickSort(arr, left, pivotIndex - 1);
+        await quickSort(arr, pivotIndex + 1, right);
     }
-    
-    // Choose a pivot element (using the middle element here)
-    const pivotIndex = Math.floor(arr.length / 2);
-    const pivot = arr[pivotIndex];
-    
-    // Arrays to hold elements smaller and larger than the pivot
-    let smaller = [];
-    let larger = [];
-    
-    // Partition the array into smaller and larger arrays
-    for (let i = 0; i < arr.length; i++) {
-        if (i === pivotIndex) continue; // Skip the pivot element
-        if (arr[i] < pivot) {
-            smaller.push(arr[i]);
-        } else {
-            larger.push(arr[i]);
+}
+
+async function partition(arr, left, right) {
+    let pivot = arr[right]; // Choose the rightmost element as the pivot
+    let i = left - 1; // Index for the smaller element
+
+    for (let j = left; j < right; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
+            await updateBars(); // Visualize the swapping step
         }
     }
-    
-    // Recursively apply quicksort and combine results
-    const sortedSmaller = await quickSort(smaller);
-    const sortedLarger = await quickSort(larger);
 
-    // Combine sorted smaller elements, pivot, and sorted larger elements
-    const sortedArray = [...sortedSmaller, pivot, ...sortedLarger];
+    // Move the pivot to its correct sorted position
+    [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
+    await updateBars(); // Visualize the pivot placement
 
-    // Optional: Visualize the array if you are displaying it in real-time
-    await updateBars(sortedArray);
-
-    return sortedArray;
+    return i + 1; // Return the pivot index
 }
+
+// updateBars is a helper function to visualize the sorting process
+async function updateBars() {
+    cont.innerHTML = ""; // Clear the container to redraw bars
+    for (let i = 0; i < arr.length; i++) {
+        let bar = document.createElement("div");
+        bar.style.height = arr[i] * 100 + "px";
+        bar.classList.add("bar");
+        cont.appendChild(bar);
+    }
+    await new Promise(resolve => setTimeout(resolve, 40)); // Add a small delay for visualization
+}
+
 
