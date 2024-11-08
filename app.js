@@ -1,4 +1,3 @@
-
 let cont = document.querySelector(".container");
 let arr = [];
 let start = document.querySelector("#create-bars");
@@ -32,7 +31,7 @@ function createBars() {
     return arr;
 }
 
-function bubbleSort(arr){
+async function bubbleSort(arr){
     let i = 0;
     let swapped; 
     do{
@@ -43,7 +42,7 @@ function bubbleSort(arr){
                 arr[i] = arr[i-1];
                 arr[i-1] = temp;
                 swapped = true;
-                updateBars();
+                await updateBars();
 
         }
     }
@@ -53,17 +52,16 @@ function bubbleSort(arr){
 
 }
 
-function updateBars(){
-    cont.innerHTML = "";
-    for(let i = 0;i<arr.length;i++){
+async function updateBars() {
+    cont.innerHTML = "";  // Clear container for new bar rendering
+    for (let i = 0; i < arr.length; i++) {
         let bar = document.createElement("div");
         bar.style.height = arr[i] * 100 + "px";
         bar.classList.add("bar");
         cont.appendChild(bar);
     }
-    return arr;
 
+    // Introduce a short delay to make the changes visible
+    await new Promise(resolve => setTimeout(resolve, 40));  // Adjust delay as needed for visibility
 }
-
-
 
