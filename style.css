@@ -32,7 +32,28 @@ body{
     margin: 5px;
 }
 
+
+
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#create-bars{
+    
+    background-color: aqua;
+    width: 80px;
+}
+
 #bubble{
+    margin-top: 100px;
+    margin-right: 30px;
+    background-color: aqua;
+    width: 80px;
+}
+
+#merge{
     margin-top: 100px;
     background-color: aqua;
     width: 80px;
