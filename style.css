@@ -1,10 +1,12 @@
 *{
     padding: 0;
     margin:0;
+
 }
 h1{
     text-align: center;
     margin-bottom: 20px;
+    color: #042A2B;
 }
 
 .container{
@@ -22,15 +24,35 @@ body{
     display: flex;
     justify-content: center;
     flex-direction: column ;
+    background-color: #5EB1BF;
 
 }
 
 .bar{
-    background-color: aqua;
+    background-color: #D84727;
     width: 20px;
     border: 4px black solid;
     margin: 5px;
 }
+.start-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    color: aliceblue;
+
+}
+
+#create-bars{
+    width: 20%;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #042A2B;
+    color: aliceblue;
+    box-shadow:  5px 10px rgba(0, 0, 0, 0.5);
+    margin-top: 100px;
+}
+
 
 
 
@@ -39,22 +61,20 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-#create-bars{
     
-    background-color: aqua;
-    width: 80px;
 }
 
 #bubble{
     margin-top: 100px;
     margin-right: 30px;
-    background-color: aqua;
+    background-color: #042A2B;
+    color: aliceblue;
     width: 80px;
 }
 
 #merge{
     margin-top: 100px;
-    background-color: aqua;
+    background-color: #042A2B;
+    color: aliceblue;
     width: 80px;
 }
