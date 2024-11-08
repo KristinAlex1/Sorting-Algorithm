@@ -87,3 +87,41 @@ async function merge(left, right) {
     
     return result;
 }
+
+async function quickSort(arr) {
+    // Base case: arrays with 1 or 0 elements are already sorted
+    if (arr.length <= 1) {
+        return arr;
+    }
+    
+    // Choose a pivot element (using the middle element here)
+    const pivotIndex = Math.floor(arr.length / 2);
+    const pivot = arr[pivotIndex];
+    
+    // Arrays to hold elements smaller and larger than the pivot
+    let smaller = [];
+    let larger = [];
+    
+    // Partition the array into smaller and larger arrays
+    for (let i = 0; i < arr.length; i++) {
+        if (i === pivotIndex) continue; // Skip the pivot element
+        if (arr[i] < pivot) {
+            smaller.push(arr[i]);
+        } else {
+            larger.push(arr[i]);
+        }
+    }
+    
+    // Recursively apply quicksort and combine results
+    const sortedSmaller = await quickSort(smaller);
+    const sortedLarger = await quickSort(larger);
+
+    // Combine sorted smaller elements, pivot, and sorted larger elements
+    const sortedArray = [...sortedSmaller, pivot, ...sortedLarger];
+
+    // Optional: Visualize the array if you are displaying it in real-time
+    await updateBars(sortedArray);
+
+    return sortedArray;
+}
+
