@@ -5,7 +5,6 @@ let bubble = document.querySelector("#bubble");
 let merg = document.querySelector("#merge");
 let quick = document.querySelector("#quick");
 
-
 start.addEventListener("click", createBars);
 bubble.addEventListener("click", () => {
     bubbleSort(arr);
@@ -13,10 +12,33 @@ bubble.addEventListener("click", () => {
 merg.addEventListener("click", () => {
     mergeSort(arr);
 });
-
-quick.addEventListener("click",() =>{
+quick.addEventListener("click", () => {
     quickSort(arr);
 });
+
+let audioCtx = null;
+
+function playNote(freq) {
+    if (audioCtx == null) {
+        audioCtx = new (
+            AudioContext ||
+            webkitAudioContext ||
+            window.webkitAudioContext
+        )();
+    }
+    const dur = 0.1;
+    const osc = audioCtx.createOscillator();
+    osc.frequency.value = freq;
+    osc.start();
+    osc.stop(audioCtx.currentTime + dur);
+    const node = audioCtx.createGain();
+    node.gain.value = 0.1;
+    node.gain.linearRampToValueAtTime(
+        0, audioCtx.currentTime + dur
+    );
+    osc.connect(node);
+    node.connect(audioCtx.destination);
+}
 
 function createBars() {
     cont.innerHTML = "";
@@ -39,25 +61,17 @@ async function bubbleSort(arr) {
         swapped = false;
         for (let i = 1; i < arr.length; i++) {
             if (arr[i] < arr[i - 1]) {
-                let temp = arr[i];
-                arr[i] = arr[i - 1];
-                arr[i - 1] = temp;
+                // Swap elements
+                [arr[i], arr[i - 1]] = [arr[i - 1], arr[i]];
                 swapped = true;
-                await updateBars();
+
+                // Visualize the swap with sound
+                await updateBars(); // Wait for visual update
+                playNote(400 + arr[i] * 500); // Play sound for arr[i]
+                playNote(400 + arr[i - 1] * 500); // Play sound for arr[i - 1]
             }
         }
     } while (swapped);
-}
-
-async function updateBars() {
-    cont.innerHTML = "";  // Clear container for new bar rendering
-    for (let i = 0; i < arr.length; i++) {
-        let bar = document.createElement("div");
-        bar.style.height = arr[i] * 100 + "px";
-        bar.classList.add("bar");
-        cont.appendChild(bar);
-    }
-    await new Promise(resolve => setTimeout(resolve, 40));  // Adjust delay as needed for visibility
 }
 
 async function mergeSort(arr) {
@@ -80,15 +94,15 @@ async function merge(left, right) {
         } else {
             result.push(right[j++]);
         }
-        
     }
 
     result = result.concat(left.slice(i)).concat(right.slice(j));
     
-    // Copy the sorted elements back to the main array and update bars visually
+    // Copy sorted elements back to the main array and update bars
     for (let k = 0; k < result.length; k++) {
         arr[k] = result[k];
-        await updateBars();
+        await updateBars(); // Visualize the merge step
+        playNote(400 + arr[k] * 500); // Play sound based on element height
     }
     
     return result;
@@ -96,35 +110,35 @@ async function merge(left, right) {
 
 async function quickSort(arr, left = 0, right = arr.length - 1) {
     if (left < right) {
-        // Partition the array around a pivot and get the pivot index
         let pivotIndex = await partition(arr, left, right);
 
-        // Recursively apply quicksort to the left and right subarrays
         await quickSort(arr, left, pivotIndex - 1);
         await quickSort(arr, pivotIndex + 1, right);
     }
 }
 
 async function partition(arr, left, right) {
-    let pivot = arr[right]; // Choose the rightmost element as the pivot
-    let i = left - 1; // Index for the smaller element
+    let pivot = arr[right];
+    let i = left - 1;
 
     for (let j = left; j < right; j++) {
         if (arr[j] < pivot) {
             i++;
-            [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
-            await updateBars(); // Visualize the swapping step
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            await updateBars(); // Visualize swap
+            playNote(400 + arr[i] * 500); // Play sound for arr[i]
+            playNote(400 + arr[j] * 500); // Play sound for arr[j]
         }
     }
 
-    // Move the pivot to its correct sorted position
     [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
-    await updateBars(); // Visualize the pivot placement
+    await updateBars(); // Visualize pivot placement
+    playNote(400 + arr[i + 1] * 500); // Play sound for pivot
 
-    return i + 1; // Return the pivot index
+    return i + 1;
 }
 
-// updateBars is a helper function to visualize the sorting process
+// updateBars is a helper function to visualize the sorting process and play sound
 async function updateBars() {
     cont.innerHTML = ""; // Clear the container to redraw bars
     for (let i = 0; i < arr.length; i++) {
@@ -132,8 +146,9 @@ async function updateBars() {
         bar.style.height = arr[i] * 100 + "px";
         bar.classList.add("bar");
         cont.appendChild(bar);
+
+        // Play sound based on the current bar height
+        playNote(400 + arr[i] * 500); // Adjust frequency based on bar height
     }
     await new Promise(resolve => setTimeout(resolve, 40)); // Add a small delay for visualization
 }
-
-
