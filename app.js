@@ -43,12 +43,12 @@ function playNote(freq) {
 function createBars() {
     cont.innerHTML = "";
     arr = [];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 50; i++) {
         arr[i] = Math.random();
     }
     for (let i = 0; i < arr.length; i++) {
         let bar = document.createElement("div");
-        bar.style.height = arr[i] * 100 + "px";
+        bar.style.height = arr[i] * 130 + "px";
         bar.classList.add("bar");
         cont.appendChild(bar);
     }
