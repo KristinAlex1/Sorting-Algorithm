@@ -67,8 +67,8 @@ async function bubbleSort(arr) {
 
                 // Visualize the swap with sound
                 await updateBars(); // Wait for visual update
-                playNote(400 + arr[i] * 500); // Play sound for arr[i]
-                playNote(400 + arr[i - 1] * 500); // Play sound for arr[i - 1]
+                playNote(600 + arr[i] * 500); // Play sound for arr[i]
+                playNote(600 + arr[i - 1] * 500); // Play sound for arr[i - 1]
             }
         }
     } while (swapped);
